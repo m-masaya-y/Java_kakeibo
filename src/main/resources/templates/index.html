@@ -1,20 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <title>簡易家計簿</title>
 </head>
 <body>
-    <h1>簡易家計簿</h1>
-    <form action="/add" method="post">
-        <input type="number" name="amount" required>
-        <button type="submit">追加</button>
-    </form>
-
-    <h2>今月の合計: <span th:text="${total}">0</span></h2>
-
-    <ul>
-        <li th:each="a : ${amounts}" th:text="${a}"></li>
-    </ul>
+    <h1>今月の簡易家計簿</h1>
+    <p>収入: ¥<span th:text="${income}">0</span></p>
+    <p>支出: ¥<span th:text="${expense}">0</span></p>
+    <p>残高: ¥<span th:text="${balance}">0</span></p>
 </body>
 </html>
