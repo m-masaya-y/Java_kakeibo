@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>簡易家計簿</title>
+</head>
+<body>
+    <h1>簡易家計簿</h1>
+    <form action="/add" method="post">
+        <input type="number" name="amount" required>
+        <button type="submit">追加</button>
+    </form>
+
+    <h2>今月の合計: <span th:text="${total}">0</span></h2>
+
+    <ul>
+        <li th:each="a : ${amounts}" th:text="${a}"></li>
+    </ul>
+</body>
+</html>
