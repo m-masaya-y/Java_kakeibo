@@ -1,42 +1,36 @@
 package com.example.kakeibo.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+
 import com.example.kakeibo.model.IncomeExpense;
 import com.example.kakeibo.repository.IncomeExpenseRepository;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class HomeController {
 
-    private final IncomeExpenseRepository repository;
+    @Autowired
+    private IncomeExpenseRepository repository;
 
-    public HomeController(IncomeExpenseRepository repository) {
-        this.repository = repository;
-    }
+    @PostMapping("/save")
+    public String saveData(
+            @RequestParam("month") String month,
+            @RequestParam("income") int income,
+            @RequestParam("expense") int expense,
+            Model model) {
 
-    @GetMapping("/")
-    public String index(Model model) {
+        // ★ 正しく動くコンストラクタ
+        IncomeExpense data = new IncomeExpense(month, income, expense);
 
-        // DBから全部取得
-        model.addAttribute("entries", repository.findAll());
-        return "index";
-    }
+        // ★ DBへ保存
+        repository.save(data);
 
-    @PostMapping("/add")
-    public String addEntry(
-            @RequestParam String month,
-            @RequestParam int income,
-            @RequestParam int expense
-    ) {
-        // DBに保存する
-        IncomeExpense ie = new IncomeExpense();
-        ie.setMonth(month);
-        ie.setIncome(income);
-        ie.setExpense(expense);
+        // ★ 画面へ返却値必要なら
+        model.addAttribute("message", "データを保存しました");
 
-        repository.save(ie);
-
-        return "redirect:/";
+        return "index"; // ← ここはあなたのテンプレート名に変更してOK
     }
 }

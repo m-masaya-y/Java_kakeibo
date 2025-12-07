@@ -1,0 +1,11 @@
+/target/
+/.data/
+/data/
+/*.class
+/.idea
+*.iml
+*.log
+/.mvn
+/mvnw
+/settings.xml
+.DS_Store
