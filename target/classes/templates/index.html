@@ -1,75 +1,27 @@
 <!DOCTYPE html>
-<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>家計簿</title>
-    <style>
-        body { font-family: sans-serif; width: 800px; margin: auto; }
-        h1 { text-align: center; }
-        .box { margin-top: 20px; padding: 12px; border: 1px solid #ddd; }
-        table { width: 100%; border-collapse: collapse; margin-top: 12px; }
-        th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
-        th { background: #f8f8f8; }
-        input, select { padding: 6px; }
-        button { padding: 6px 12px; }
-        .right { text-align: right; }
-    </style>
 </head>
 <body>
 
-<h1>簡易家計簿</h1>
+<h2>家計簿入力</h2>
 
-<div class="box">
-    <form action="/" method="get">
-        <label>月を選択：</label>
-        <input type="month" name="month" th:value="${month}">
-        <button type="submit">表示</button>
-    </form>
-</div>
+<form action="/save" method="post">
+    <label>月:</label>
+    <input type="text" name="month" required><br>
 
-<div class="box">
-    <h3>収入・支出の追加（表示中の月： <span th:text="${month}"></span>）</h3>
-    <form action="/add" method="post">
-        <input type="hidden" name="month" th:value="${month}">
-        <label>収入：</label>
-        <input type="number" name="income" value="0" required>
-        <label>支出：</label>
-        <input type="number" name="expense" value="0" required>
-        <button type="submit">保存</button>
-    </form>
-</div>
+    <label>収入:</label>
+    <input type="number" name="income" required><br>
 
-<div class="box">
-    <h3 th:text="${month} + ' の集計'"></h3>
-    <p>収入合計： <strong th:text="'¥' + ${totalIncome}"></strong></p>
-    <p>支出合計： <strong th:text="'¥' + ${totalExpense}"></strong></p>
-    <p>残高： <strong th:text="'¥' + ${balance}"></strong></p>
-</div>
+    <label>支出:</label>
+    <input type="number" name="expense" required><br>
 
-<div class="box">
-    <h3>明細</h3>
-    <table>
-        <thead>
-            <tr><th>ID</th><th>月</th><th>収入</th><th>支出</th><th>残高</th><th>操作</th></tr>
-        </thead>
-        <tbody>
-            <tr th:each="e : ${list}">
-                <td th:text="${e.id}"></td>
-                <td th:text="${e.month}"></td>
-                <td th:text="'¥' + ${e.income}"></td>
-                <td th:text="'¥' + ${e.expense}"></td>
-                <td th:text="'¥' + ${e.balance}"></td>
-                <td>
-                    <form action="/delete" method="post" style="display:inline">
-                        <input type="hidden" name="id" th:value="${e.id}">
-                        <input type="hidden" name="month" th:value="${month}">
-                        <button type="submit" onclick="return confirm('削除しますか？')">削除</button>
-                    </form>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+    <button type="submit">保存</button>
+</form>
+
+<p th:text="${message}"></p>
 
 </body>
 </html>

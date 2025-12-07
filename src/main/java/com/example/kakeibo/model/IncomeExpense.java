@@ -9,33 +9,24 @@ public class IncomeExpense {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "month_value")  // ← 予約語回避
-    private String monthValue;
-
+    private String month;
     private int income;
     private int expense;
 
     public IncomeExpense() {}
 
     public IncomeExpense(String month, int income, int expense) {
-        this.monthValue = month;
+        this.month = month;
         this.income = income;
         this.expense = expense;
     }
 
-    public int getBalance() {
-        return income - expense;
-    }
-
     public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getMonthValue() { return monthValue; }
-    public void setMonthValue(String monthValue) { this.monthValue = monthValue; }
-
+    public String getMonth() { return month; }
     public int getIncome() { return income; }
-    public void setIncome(int income) { this.income = income; }
-
     public int getExpense() { return expense; }
+
+    public void setMonth(String month) { this.month = month; }
+    public void setIncome(int income) { this.income = income; }
     public void setExpense(int expense) { this.expense = expense; }
 }
