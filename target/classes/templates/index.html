@@ -2,12 +2,65 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>簡易家計簿</title>
+    <title>家計簿</title>
+    <style>
+        body { font-family: sans-serif; width: 600px; margin: auto; }
+        h1 { text-align: center; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+        th { background: #f0f0f0; }
+        form { margin-top: 20px; }
+        input, select { padding: 6px; }
+        button { padding: 8px 15px; margin-top: 10px; }
+    </style>
 </head>
 <body>
-    <h1>今月の簡易家計簿</h1>
-    <p>収入: ¥<span th:text="${income}">0</span></p>
-    <p>支出: ¥<span th:text="${expense}">0</span></p>
-    <p>残高: ¥<span th:text="${balance}">0</span></p>
+
+<h1>家計簿</h1>
+
+<form action="/add" method="post">
+    <label>月：</label>
+    <select name="month" required>
+        <option value="">選択</option>
+        <option>1月</option>
+        <option>2月</option>
+        <option>3月</option>
+        <option>4月</option>
+        <option>5月</option>
+        <option>6月</option>
+        <option>7月</option>
+        <option>8月</option>
+        <option>9月</option>
+        <option>10月</option>
+        <option>11月</option>
+        <option>12月</option>
+    </select><br><br>
+
+    <label>収入：</label>
+    <input type="number" name="income" required><br><br>
+
+    <label>支出：</label>
+    <input type="number" name="expense" required><br><br>
+
+    <button type="submit">追加</button>
+</form>
+
+<h2>一覧</h2>
+<table>
+    <tr>
+        <th>月</th>
+        <th>収入</th>
+        <th>支出</th>
+        <th>残高</th>
+    </tr>
+
+    <tr th:each="e : ${entries}">
+        <td th:text="${e.month}"></td>
+        <td th:text="'¥' + ${e.income}"></td>
+        <td th:text="'¥' + ${e.expense}"></td>
+        <td th:text="'¥' + ${e.balance}"></td>
+    </tr>
+</table>
+
 </body>
 </html>
