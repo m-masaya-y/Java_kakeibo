@@ -1,28 +1,23 @@
-# -------- Build stage --------
-FROM eclipse-temurin:17-jdk AS builder
+FROM eclipse-temurin:17-jdk AS build
 
-# 作業ディレクトリ
 WORKDIR /app
 
-# プロジェクト一式コピー
+# プロジェクトファイルをコピー
 COPY . .
 
-# Maven wrapper 実行権限
-RUN chmod +x mvnw
+# Maven をインストール
+RUN apt-get update && apt-get install -y maven
 
-# jar をビルド
-RUN ./mvnw clean package -DskipTests
+# JAR をビルド
+RUN mvn clean package -DskipTests
 
-# -------- Run stage --------
+# 実行用ステージ
 FROM eclipse-temurin:17-jre
 
 WORKDIR /app
 
-# builderでできた jar をコピー
-COPY --from=builder /app/target/kakeibo-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=build /app/target/kakeibo-0.0.1-SNAPSHOT.jar app.jar
 
-# ポート
 EXPOSE 8080
 
-# 起動コマンド
-ENTRYPOINT ["java", "-jar", "app.jar"]
+CMD ["java", "-jar", "app.jar"]
