@@ -9,15 +9,17 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class HomeController {
 
-    private final IncomeExpenseRepository repo;
+    private final IncomeExpenseRepository repository;
 
-    public HomeController(IncomeExpenseRepository repo) {
-        this.repo = repo;
+    public HomeController(IncomeExpenseRepository repository) {
+        this.repository = repository;
     }
 
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("entries", repo.findAll());
+
+        // DBから全部取得
+        model.addAttribute("entries", repository.findAll());
         return "index";
     }
 
@@ -27,12 +29,14 @@ public class HomeController {
             @RequestParam int income,
             @RequestParam int expense
     ) {
+        // DBに保存する
         IncomeExpense ie = new IncomeExpense();
         ie.setMonth(month);
         ie.setIncome(income);
         ie.setExpense(expense);
 
-        repo.save(ie);
+        repository.save(ie);
+
         return "redirect:/";
     }
 }
