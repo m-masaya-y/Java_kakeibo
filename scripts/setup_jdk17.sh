@@ -1,0 +1,1 @@
+nano setup_jdk17.sh
