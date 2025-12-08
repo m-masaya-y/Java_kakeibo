@@ -4,7 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Column;
 
 @Entity
 public class IncomeExpense {
@@ -13,11 +12,9 @@ public class IncomeExpense {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String month;
     private int income;
     private int expense;
-
-    @Column(name = "month_value")  // H2 の予約語回避
-    private String month;
 
     public IncomeExpense() {}
 
@@ -27,35 +24,13 @@ public class IncomeExpense {
         this.expense = expense;
     }
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public String getMonth() { return month; }
+    public int getIncome() { return income; }
+    public int getExpense() { return expense; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public int getIncome() {
-        return income;
-    }
-
-    public void setIncome(int income) {
-        this.income = income;
-    }
-
-    public int getExpense() {
-        return expense;
-    }
-
-    public void setExpense(int expense) {
-        this.expense = expense;
-    }
-
-    public String getMonth() {
-        return month;
-    }
-
-    public void setMonth(String month) {
-        this.month = month;
-    }
+    public void setId(Long id) { this.id = id; }
+    public void setMonth(String month) { this.month = month; }
+    public void setIncome(int income) { this.income = income; }
+    public void setExpense(int expense) { this.expense = expense; }
 }
