@@ -1,27 +1,57 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>家計簿</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>収支管理</title>
+<style>
+body { font-family: sans-serif; background: #f5f5f5; display: flex; justify-content: center; padding: 20px; }
+.container { width: 100%; max-width: 900px; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center; }
+form { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 20px; }
+input, select { padding: 10px; border-radius: 6px; border: 1px solid #ccc; width: 180px; }
+button { padding: 10px 20px; border: none; background: #007bff; color: white; border-radius: 6px; cursor: pointer; }
+button:hover { opacity: 0.9; }
+.table-container { overflow-x: auto; margin-top: 20px; }
+table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+th { background: #87cefa; }
+.summary { margin: 20px 0; padding: 15px; background: #e3f2fd; border-radius: 8px; }
+@media (max-width:600px){ input, select { width:100%; } }
+</style>
 </head>
 <body>
-
-<h2>家計簿入力</h2>
-
-<form action="/save" method="post">
-    <label>月:</label>
-    <input type="text" name="month" required><br>
-
-    <label>収入:</label>
-    <input type="number" name="income" required><br>
-
-    <label>支出:</label>
-    <input type="number" name="expense" required><br>
-
-    <button type="submit">保存</button>
+<div class="container">
+<h2>収支管理アプリ</h2>
+<button onclick="location.href='https://minahada.com/wordpress/'" style="margin-bottom:20px; background:#444;">トップに戻る</button>
+<form th:action="@{/save}" method="post">
+  <select name="month">
+    <option th:each="m : ${#numbers.sequence(1,12)}" th:value="${m}" th:text="${m}+'月'"></option>
+  </select>
+  <input type="number" name="income" placeholder="収入" />
+  <input type="number" name="expense" placeholder="支出" />
+  <button type="submit">保存</button>
 </form>
-
-<p th:text="${message}"></p>
-
+<div class="summary" th:text="${message}">月ごとの合計がここに表示されます</div>
+<div class="table-container">
+<table>
+  <thead>
+    <tr><th>月</th><th>収入</th><th>支出</th><th>削除</th></tr>
+  </thead>
+  <tbody>
+    <tr th:each="item : ${dataList}">
+      <td th:text="${item.month}+'月'"></td>
+      <td th:text="${item.income}"></td>
+      <td th:text="${item.expense}"></td>
+      <td>
+        <form th:action="@{/delete}" method="post">
+          <input type="hidden" name="id" th:value="${item.id}" />
+          <button type="submit" style="background:#d9534f">削除</button>
+        </form>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
 </body>
 </html>
