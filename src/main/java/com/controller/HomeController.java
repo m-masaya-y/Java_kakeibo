@@ -1,27 +1,46 @@
-package com.example.kakeibo.controller;
+package com.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import com.example.kakeibo.model.IncomeExpense;
 import com.example.kakeibo.repository.IncomeExpenseRepository;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class HomeController {
 
-    @Autowired
-    private IncomeExpenseRepository repository;
+    private final IncomeExpenseRepository repository;
 
-    @PostMapping("/save")
-    public String saveData(
-            @RequestParam("month") String month,
-            @RequestParam("income") int income,
-            @RequestParam("expense") int expense) {
+    public HomeController(IncomeExpenseRepository repository) {
+        this.repository = repository;
+    }
 
-        IncomeExpense data = new IncomeExpense(month, income, expense);
-        repository.save(data);
+    // 一覧表示
+    @GetMapping("/")
+    public String index(Model model) {
+        model.addAttribute("dataList", repository.findAll());
+        return "index";
+    }
 
-        return "redirect:/"; // 保存後トップにリダイレクト
+    // データ追加
+    @PostMapping("/add")
+    public String add(@RequestParam String income,
+                      @RequestParam String expense,
+                      @RequestParam String month) {
+
+        int inc = Integer.parseInt(income);
+        int exp = Integer.parseInt(expense);
+        int mon = Integer.parseInt(month);
+
+        IncomeExpense entry = new IncomeExpense(inc, exp, mon);
+        repository.save(entry);
+        return "redirect:/";
+    }
+
+    // データ削除
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable Long id) {
+        repository.deleteById(id);
+        return "redirect:/";
     }
 }

@@ -1,12 +1,9 @@
 package com.example.kakeibo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Column;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "income_expense")
 public class IncomeExpense {
 
     @Id
@@ -15,8 +12,6 @@ public class IncomeExpense {
 
     private int income;
     private int expense;
-
-    @Column(name = "month_name") // H2予約語回避
     private int month;
 
     public IncomeExpense() {}
@@ -27,15 +22,32 @@ public class IncomeExpense {
         this.month = month;
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    // --- Getter / Setter ---
+    public Long getId() {
+        return id;
+    }
 
-    public int getIncome() { return income; }
-    public void setIncome(int income) { this.income = income; }
+    public int getIncome() {
+        return income;
+    }
 
-    public int getExpense() { return expense; }
-    public void setExpense(int expense) { this.expense = expense; }
+    public void setIncome(int income) {
+        this.income = income;
+    }
 
-    public int getMonth() { return month; }
-    public void setMonth(int month) { this.month = month; }
+    public int getExpense() {
+        return expense;
+    }
+
+    public void setExpense(int expense) {
+        this.expense = expense;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
 }
