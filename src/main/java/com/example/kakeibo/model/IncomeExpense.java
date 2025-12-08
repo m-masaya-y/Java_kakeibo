@@ -12,14 +12,14 @@ public class IncomeExpense {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String month; // 1~12
+    private String monthName; // 月
     private int income;
     private int expense;
 
     public IncomeExpense() {}
 
-    public IncomeExpense(String month, int income, int expense) {
-        this.month = month;
+    public IncomeExpense(String monthName, int income, int expense) {
+        this.monthName = monthName;
         this.income = income;
         this.expense = expense;
     }
@@ -28,8 +28,8 @@ public class IncomeExpense {
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public String getMonth() { return month; }
-    public void setMonth(String month) { this.month = month; }
+    public String getMonthName() { return monthName; }
+    public void setMonthName(String monthName) { this.monthName = monthName; }
 
     public int getIncome() { return income; }
     public void setIncome(int income) { this.income = income; }
