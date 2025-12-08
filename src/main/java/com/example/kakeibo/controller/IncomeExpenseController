@@ -6,8 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class IncomeExpenseController {
@@ -21,8 +20,18 @@ public class IncomeExpenseController {
     @GetMapping("/")
     public String index(Model model) {
         List<IncomeExpense> list = repository.findAll();
-        list.sort(Comparator.comparingInt(IncomeExpense::getMonth)); // 月順ソート
+        list.sort(Comparator.comparingInt(IncomeExpense::getMonth));
         model.addAttribute("dataList", list);
+
+        // 月ごとの合計計算
+        Map<Integer, int[]> monthlySummary = new TreeMap<>();
+        for (IncomeExpense item : list) {
+            monthlySummary.putIfAbsent(item.getMonth(), new int[]{0,0}); // [収入, 支出]
+            monthlySummary.get(item.getMonth())[0] += item.getIncome();
+            monthlySummary.get(item.getMonth())[1] += item.getExpense();
+        }
+        model.addAttribute("monthlySummary", monthlySummary);
+
         return "index";
     }
 
@@ -32,7 +41,7 @@ public class IncomeExpenseController {
                       @RequestParam int month) {
         IncomeExpense entry = new IncomeExpense(income, expense, month);
         repository.save(entry);
-        return "redirect:/"; // 保存後トップページへ
+        return "redirect:/";
     }
 
     @PostMapping("/delete/{id}")

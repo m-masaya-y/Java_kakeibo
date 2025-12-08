@@ -16,7 +16,7 @@ public class IncomeExpense {
     private int income;
     private int expense;
 
-    @Column(name = "month_name") // H2で予約語回避
+    @Column(name = "month_name") // H2予約語回避
     private int month;
 
     public IncomeExpense() {}
@@ -27,35 +27,15 @@ public class IncomeExpense {
         this.month = month;
     }
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public int getIncome() { return income; }
+    public void setIncome(int income) { this.income = income; }
 
-    public int getIncome() {
-        return income;
-    }
+    public int getExpense() { return expense; }
+    public void setExpense(int expense) { this.expense = expense; }
 
-    public void setIncome(int income) {
-        this.income = income;
-    }
-
-    public int getExpense() {
-        return expense;
-    }
-
-    public void setExpense(int expense) {
-        this.expense = expense;
-    }
-
-    public int getMonth() {
-        return month;
-    }
-
-    public void setMonth(int month) {
-        this.month = month;
-    }
+    public int getMonth() { return month; }
+    public void setMonth(int month) { this.month = month; }
 }

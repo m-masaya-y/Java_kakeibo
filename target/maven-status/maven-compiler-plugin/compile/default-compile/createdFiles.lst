@@ -1,5 +1,1 @@
-com/example/kakeibo/controller/HomeController.class
-com/example/kakeibo/repository/IncomeExpenseRepository.class
 com/example/kakeibo/model/IncomeExpense.class
-com/example/kakeibo/KakeiboApplication.class
-com/example/kakeibo/model/KakeiboEntry.class
