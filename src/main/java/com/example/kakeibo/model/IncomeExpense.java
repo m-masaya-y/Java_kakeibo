@@ -1,9 +1,6 @@
 package com.example.kakeibo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class IncomeExpense {
@@ -12,9 +9,14 @@ public class IncomeExpense {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String month;
+    @Column(nullable = false)
     private int income;
+
+    @Column(nullable = false)
     private int expense;
+
+    @Column(name = "month_value")  // month は予約語なので変更
+    private String month;
 
     public IncomeExpense() {}
 
@@ -24,13 +26,13 @@ public class IncomeExpense {
         this.expense = expense;
     }
 
+    // getter/setter
     public Long getId() { return id; }
-    public String getMonth() { return month; }
-    public int getIncome() { return income; }
-    public int getExpense() { return expense; }
-
     public void setId(Long id) { this.id = id; }
-    public void setMonth(String month) { this.month = month; }
+    public int getIncome() { return income; }
     public void setIncome(int income) { this.income = income; }
+    public int getExpense() { return expense; }
     public void setExpense(int expense) { this.expense = expense; }
+    public String getMonth() { return month; }
+    public void setMonth(String month) { this.month = month; }
 }

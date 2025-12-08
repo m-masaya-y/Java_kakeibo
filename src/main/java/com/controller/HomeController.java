@@ -2,13 +2,13 @@ package com.example.kakeibo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.kakeibo.model.IncomeExpense;
 import com.example.kakeibo.repository.IncomeExpenseRepository;
+
+import java.util.List;
 
 @Controller
 public class HomeController {
@@ -18,22 +18,24 @@ public class HomeController {
 
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("dataList", repository.findAll());
+        List<IncomeExpense> data = repository.findAll();
+        model.addAttribute("dataList", data);
         return "index";
     }
 
     @PostMapping("/save")
-    public String save(
-            @RequestParam String month,
-            @RequestParam int income,
-            @RequestParam int expense) {
+    public String saveData(
+            @RequestParam("month") String month,
+            @RequestParam("income") int income,
+            @RequestParam("expense") int expense) {
 
-        repository.save(new IncomeExpense(month, income, expense));
-        return "redirect:/";
+        IncomeExpense data = new IncomeExpense(month, income, expense);
+        repository.save(data);
+        return "redirect:/"; // 保存後に一覧表示
     }
 
     @PostMapping("/delete")
-    public String delete(@RequestParam Long id) {
+    public String deleteData(@RequestParam("id") Long id) {
         repository.deleteById(id);
         return "redirect:/";
     }
