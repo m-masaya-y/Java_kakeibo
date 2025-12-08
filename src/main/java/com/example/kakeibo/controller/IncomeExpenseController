@@ -1,44 +1,43 @@
 package com.example.kakeibo.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.ui.Model;
 import com.example.kakeibo.model.IncomeExpense;
 import com.example.kakeibo.repository.IncomeExpenseRepository;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Comparator;
+import java.util.List;
 
 @Controller
 public class IncomeExpenseController {
 
-    @Autowired
-    private IncomeExpenseRepository repository;
+    private final IncomeExpenseRepository repository;
+
+    public IncomeExpenseController(IncomeExpenseRepository repository) {
+        this.repository = repository;
+    }
 
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("dataList", repository.findAll());
+        List<IncomeExpense> list = repository.findAll();
+        list.sort(Comparator.comparingInt(IncomeExpense::getMonth)); // 月順ソート
+        model.addAttribute("dataList", list);
         return "index";
     }
 
-    @PostMapping("/save")
-    public String saveData(
-            @RequestParam("month") String month,
-            @RequestParam("income") int income,
-            @RequestParam("expense") int expense,
-            Model model) {
-
-        IncomeExpense data = new IncomeExpense(month, income, expense);
-        repository.save(data);
-        model.addAttribute("dataList", repository.findAll());
-        model.addAttribute("message", "データを保存しました");
-        return "index";
+    @PostMapping("/add")
+    public String add(@RequestParam int income,
+                      @RequestParam int expense,
+                      @RequestParam int month) {
+        IncomeExpense entry = new IncomeExpense(income, expense, month);
+        repository.save(entry);
+        return "redirect:/"; // 保存後トップページへ
     }
 
-    @PostMapping("/delete")
-    public String deleteData(@RequestParam("id") Long id, Model model) {
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable Long id) {
         repository.deleteById(id);
-        model.addAttribute("dataList", repository.findAll());
-        return "index";
+        return "redirect:/";
     }
 }
