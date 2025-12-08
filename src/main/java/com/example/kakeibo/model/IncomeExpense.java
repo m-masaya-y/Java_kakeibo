@@ -9,56 +9,53 @@ import jakarta.persistence.Column;
 @Entity
 public class IncomeExpense {
 
-```
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-private int income;
-private int expense;
+    private int income;
+    private int expense;
 
-@Column(name = "month_value")  // H2 の予約語回避
-private String month;
+    @Column(name = "month_value")  // H2 の予約語回避
+    private String month;
 
-public IncomeExpense() {}
+    public IncomeExpense() {}
 
-public IncomeExpense(String month, int income, int expense) {
-    this.month = month;
-    this.income = income;
-    this.expense = expense;
-}
+    public IncomeExpense(String month, int income, int expense) {
+        this.month = month;
+        this.income = income;
+        this.expense = expense;
+    }
 
-public Long getId() {
-    return id;
-}
+    public Long getId() {
+        return id;
+    }
 
-public void setId(Long id) {
-    this.id = id;
-}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-public int getIncome() {
-    return income;
-}
+    public int getIncome() {
+        return income;
+    }
 
-public void setIncome(int income) {
-    this.income = income;
-}
+    public void setIncome(int income) {
+        this.income = income;
+    }
 
-public int getExpense() {
-    return expense;
-}
+    public int getExpense() {
+        return expense;
+    }
 
-public void setExpense(int expense) {
-    this.expense = expense;
-}
+    public void setExpense(int expense) {
+        this.expense = expense;
+    }
 
-public String getMonth() {
-    return month;
-}
+    public String getMonth() {
+        return month;
+    }
 
-public void setMonth(String month) {
-    this.month = month;
-}
-```
-
+    public void setMonth(String month) {
+        this.month = month;
+    }
 }
