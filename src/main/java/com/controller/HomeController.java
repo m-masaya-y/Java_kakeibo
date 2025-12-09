@@ -37,10 +37,19 @@ public class HomeController {
         return "redirect:/";
     }
 
-    // データ削除
-    @PostMapping("/delete/{id}")
-    public String delete(@PathVariable Long id) {
-        repository.deleteById(id);
-        return "redirect:/";
+    // データ追加
+@PostMapping("/add")
+public String add(@RequestParam String income,
+                  @RequestParam String expense,
+                  @RequestParam String month) {
+
+    int inc = Integer.parseInt(income);
+    int exp = Integer.parseInt(expense);
+
+    // ★ 修正：month は文字列のまま保存
+    IncomeExpense entry = new IncomeExpense(inc, exp, month);
+
+    repository.save(entry);
+    return "redirect:/";
     }
 }
