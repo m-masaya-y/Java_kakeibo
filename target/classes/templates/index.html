@@ -59,22 +59,20 @@
         th {
             background: #87cefa;
         }
-        .summary {
-            margin: 20px 0;
-            padding: 15px;
-            background: #e3f2fd;
-            border-radius: 8px;
-        }
         @media (max-width: 600px) {
             input, select { width: 100%; }
         }
     </style>
 </head>
 <body>
+
 <div class="container">
     <h2>収支管理アプリ</h2>
 
-    <button onclick="location.href='https://minahada.com/wordpress/'" style="margin-bottom:20px; background:#444;">トップに戻る</button>
+    <button onclick="location.href='https://minahada.com/wordpress/'"
+            style="margin-bottom:20px; background:#444;">
+        トップに戻る
+    </button>
 
     <form action="/add" method="post">
         <select name="month" required>
@@ -98,12 +96,6 @@
         <button type="submit">保存</button>
     </form>
 
-    <div class="summary" th:if="${dataList.size() > 0}">
-        <p th:each="monthGroup : ${#lists.list(0,12)}">
-            <span th:text="'月: ' + (monthGroup+1)"></span>
-        </p>
-    </div>
-
     <div class="table-container">
         <table>
             <thead>
@@ -116,7 +108,7 @@
             </thead>
             <tbody>
             <tr th:each="item : ${dataList}">
-                <td th:text="${item.month} + '月'"></td>
+                <td th:text="${item.monthName} + '月'"></td>
                 <td th:text="${item.income} + ' 円'"></td>
                 <td th:text="${item.expense} + ' 円'"></td>
                 <td>
@@ -129,5 +121,6 @@
         </table>
     </div>
 </div>
+
 </body>
 </html>

@@ -74,7 +74,8 @@
         トップに戻る
     </button>
 
-    <form action="/add" method="post">
+    <!-- ★ 修正：Thymeleaf th:action を使用 -->
+    <form th:action="@{/add}" method="post">
         <select name="month" required>
             <option value="1">1月</option>
             <option value="2">2月</option>
@@ -108,7 +109,8 @@
             </thead>
             <tbody>
             <tr th:each="item : ${dataList}">
-                <td th:text="${item.monthName} + '月'"></td>
+                <!-- ★ 修正：monthName → month -->
+                <td th:text="${item.month} + '月'"></td>
                 <td th:text="${item.income} + ' 円'"></td>
                 <td th:text="${item.expense} + ' 円'"></td>
                 <td>
