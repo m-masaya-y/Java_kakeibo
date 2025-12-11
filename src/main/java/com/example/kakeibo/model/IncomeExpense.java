@@ -12,11 +12,14 @@ public class IncomeExpense {
 
     private int income;
     private int expense;
-    private int month;
+
+    // ★ 修正：String に変更
+    private String month;
 
     public IncomeExpense() {}
 
-    public IncomeExpense(int income, int expense, int month) {
+    // ★ 修正：month を String で受け取る
+    public IncomeExpense(int income, int expense, String month) {
         this.income = income;
         this.expense = expense;
         this.month = month;
@@ -43,11 +46,12 @@ public class IncomeExpense {
         this.expense = expense;
     }
 
-    public int getMonth() {
+    // String month 版 Getter / Setter
+    public String getMonth() {
         return month;
     }
 
-    public void setMonth(int month) {
+    public void setMonth(String month) {
         this.month = month;
     }
 }

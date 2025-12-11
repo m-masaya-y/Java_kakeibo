@@ -22,7 +22,7 @@ public class HomeController {
         return "index";
     }
 
-    // データ追加
+    // データ追加（★完成版）
     @PostMapping("/add")
     public String add(@RequestParam String income,
                       @RequestParam String expense,
@@ -30,26 +30,18 @@ public class HomeController {
 
         int inc = Integer.parseInt(income);
         int exp = Integer.parseInt(expense);
-        int mon = Integer.parseInt(month);
 
-        IncomeExpense entry = new IncomeExpense(inc, exp, mon);
+        // month は String のまま model に渡す
+        IncomeExpense entry = new IncomeExpense(inc, exp, month);
+
         repository.save(entry);
         return "redirect:/";
     }
 
-    // データ追加
-@PostMapping("/add")
-public String add(@RequestParam String income,
-                  @RequestParam String expense,
-                  @RequestParam String month) {
-
-    int inc = Integer.parseInt(income);
-    int exp = Integer.parseInt(expense);
-
-    // ★ 修正：month は文字列のまま保存
-    IncomeExpense entry = new IncomeExpense(inc, exp, month);
-
-    repository.save(entry);
-    return "redirect:/";
+    // データ削除
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable Long id) {
+        repository.deleteById(id);
+        return "redirect:/";
     }
 }
