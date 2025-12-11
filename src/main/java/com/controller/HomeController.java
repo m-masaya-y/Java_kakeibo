@@ -22,7 +22,7 @@ public class HomeController {
         return "index";
     }
 
-    // データ追加（★完成版）
+    // データ追加
     @PostMapping("/add")
     public String add(@RequestParam String income,
                       @RequestParam String expense,
@@ -31,7 +31,7 @@ public class HomeController {
         int inc = Integer.parseInt(income);
         int exp = Integer.parseInt(expense);
 
-        // month は String のまま model に渡す
+        // ★ month → monthName に変更
         IncomeExpense entry = new IncomeExpense(inc, exp, month);
 
         repository.save(entry);

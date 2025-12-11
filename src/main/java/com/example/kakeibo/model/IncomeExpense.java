@@ -13,19 +13,18 @@ public class IncomeExpense {
     private int income;
     private int expense;
 
-    // ★ 修正：String に変更
-    private String month;
+    // ★ 予約語回避：month → monthName
+    @Column(name = "month_name")
+    private String monthName;
 
     public IncomeExpense() {}
 
-    // ★ 修正：month を String で受け取る
-    public IncomeExpense(int income, int expense, String month) {
+    public IncomeExpense(int income, int expense, String monthName) {
         this.income = income;
         this.expense = expense;
-        this.month = month;
+        this.monthName = monthName;
     }
 
-    // --- Getter / Setter ---
     public Long getId() {
         return id;
     }
@@ -46,12 +45,11 @@ public class IncomeExpense {
         this.expense = expense;
     }
 
-    // String month 版 Getter / Setter
-    public String getMonth() {
-        return month;
+    public String getMonthName() {
+        return monthName;
     }
 
-    public void setMonth(String month) {
-        this.month = month;
+    public void setMonthName(String monthName) {
+        this.monthName = monthName;
     }
 }

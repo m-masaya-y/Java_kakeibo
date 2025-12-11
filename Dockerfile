@@ -7,7 +7,7 @@ WORKDIR /app
 COPY pom.xml .
 RUN mvn dependency:go-offline
 
-# プロジェクトをコピー
+# プロジェクト一式をコピー
 COPY src ./src
 
 # JAR ビルド
@@ -19,12 +19,11 @@ FROM eclipse-temurin:17-jre
 
 WORKDIR /app
 
-# build で作られた JAR をコピー
-COPY --from=build /app/target/kakeibo-0.0.1-SNAPSHOT.jar app.jar
+# Build で生成された JAR をコピー
+COPY --from=build /app/target/*.jar app.jar
 
+# ポート設定（Render / Railway / Heroku 互換）
+ENV PORT=8080
 EXPOSE 8080
 
-# Render / Railway / Heroku 互換
-ENV PORT=8080
-
-CMD ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
