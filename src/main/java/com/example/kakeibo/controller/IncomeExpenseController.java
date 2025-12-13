@@ -20,27 +20,21 @@ public class IncomeExpenseController {
     @GetMapping("/")
     public String index(Model model) {
         List<IncomeExpense> list = repository.findAll();
+
+        // 月でソート
         list.sort(Comparator.comparingInt(IncomeExpense::getMonth));
+
         model.addAttribute("dataList", list);
-
-        // 月ごとの合計計算
-        Map<Integer, int[]> monthlySummary = new TreeMap<>();
-        for (IncomeExpense item : list) {
-            monthlySummary.putIfAbsent(item.getMonth(), new int[]{0,0}); // [収入, 支出]
-            monthlySummary.get(item.getMonth())[0] += item.getIncome();
-            monthlySummary.get(item.getMonth())[1] += item.getExpense();
-        }
-        model.addAttribute("monthlySummary", monthlySummary);
-
         return "index";
     }
 
     @PostMapping("/add")
-    public String add(@RequestParam int income,
-                      @RequestParam int expense,
-                      @RequestParam int month) {
-        IncomeExpense entry = new IncomeExpense(income, expense, month);
-        repository.save(entry);
+    public String add(
+            @RequestParam int income,
+            @RequestParam int expense,
+            @RequestParam int month
+    ) {
+        repository.save(new IncomeExpense(income, expense, month));
         return "redirect:/";
     }
 

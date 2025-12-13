@@ -12,17 +12,14 @@ public class IncomeExpense {
 
     private int income;
     private int expense;
-
-    // ★ 予約語回避：month → monthName
-    @Column(name = "month_name")
-    private String monthName;
+    private int month;
 
     public IncomeExpense() {}
 
-    public IncomeExpense(int income, int expense, String monthName) {
+    public IncomeExpense(int income, int expense, int month) {
         this.income = income;
         this.expense = expense;
-        this.monthName = monthName;
+        this.month = month;
     }
 
     public Long getId() {
@@ -33,23 +30,11 @@ public class IncomeExpense {
         return income;
     }
 
-    public void setIncome(int income) {
-        this.income = income;
-    }
-
     public int getExpense() {
         return expense;
     }
 
-    public void setExpense(int expense) {
-        this.expense = expense;
-    }
-
-    public String getMonthName() {
-        return monthName;
-    }
-
-    public void setMonthName(String monthName) {
-        this.monthName = monthName;
+    public int getMonth() {
+        return month;
     }
 }
