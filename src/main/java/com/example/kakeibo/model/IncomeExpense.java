@@ -12,14 +12,17 @@ public class IncomeExpense {
 
     private int income;
     private int expense;
-    private int month;
+
+    // ★ month は予約語なので変更
+    @Column(name = "month_value", nullable = false)
+    private int monthValue;
 
     public IncomeExpense() {}
 
-    public IncomeExpense(int income, int expense, int month) {
+    public IncomeExpense(int income, int expense, int monthValue) {
         this.income = income;
         this.expense = expense;
-        this.month = month;
+        this.monthValue = monthValue;
     }
 
     public Long getId() {
@@ -34,7 +37,7 @@ public class IncomeExpense {
         return expense;
     }
 
-    public int getMonth() {
-        return month;
+    public int getMonthValue() {
+        return monthValue;
     }
 }

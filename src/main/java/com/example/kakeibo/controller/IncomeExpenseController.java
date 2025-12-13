@@ -6,7 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
 
 @Controller
 public class IncomeExpenseController {
@@ -20,21 +21,18 @@ public class IncomeExpenseController {
     @GetMapping("/")
     public String index(Model model) {
         List<IncomeExpense> list = repository.findAll();
-
-        // 月でソート
-        list.sort(Comparator.comparingInt(IncomeExpense::getMonth));
-
+        list.sort(Comparator.comparingInt(IncomeExpense::getMonthValue));
         model.addAttribute("dataList", list);
         return "index";
     }
 
     @PostMapping("/add")
-    public String add(
-            @RequestParam int income,
-            @RequestParam int expense,
-            @RequestParam int month
-    ) {
-        repository.save(new IncomeExpense(income, expense, month));
+    public String add(@RequestParam int income,
+                      @RequestParam int expense,
+                      @RequestParam int month) {
+
+        IncomeExpense entry = new IncomeExpense(income, expense, month);
+        repository.save(entry);
         return "redirect:/";
     }
 

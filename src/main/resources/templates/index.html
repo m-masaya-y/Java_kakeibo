@@ -110,7 +110,7 @@
             <tbody>
             <tr th:each="item : ${dataList}">
                 <!-- ★ 修正：monthName → month -->
-                <td th:text="${item.month} + '月'"></td>
+                <td th:text="${item.monthValue} + '月'"></td>
                 <td th:text="${item.income} + ' 円'"></td>
                 <td th:text="${item.expense} + ' 円'"></td>
                 <td>
