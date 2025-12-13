@@ -59,6 +59,12 @@
         th {
             background: #87cefa;
         }
+        .summary {
+            margin: 20px 0;
+            padding: 15px;
+            background: #e3f2fd;
+            border-radius: 8px;
+        }
         @media (max-width: 600px) {
             input, select { width: 100%; }
         }
@@ -74,7 +80,7 @@
         トップに戻る
     </button>
 
-    <!-- ★ 修正：Thymeleaf th:action を使用 -->
+    <!-- 追加フォーム -->
     <form th:action="@{/add}" method="post">
         <select name="month" required>
             <option value="1">1月</option>
@@ -97,6 +103,20 @@
         <button type="submit">保存</button>
     </form>
 
+    <!-- ★ 月別合計 -->
+    <div class="summary">
+        <h3>月別合計</h3>
+        <div th:each="entry : ${monthlySummary}">
+            <p>
+                <strong th:text="${entry.key} + '月'"></strong>：
+                収入 <span th:text="${entry.value[0]}"></span> 円 /
+                支出 <span th:text="${entry.value[1]}"></span> 円 /
+                残額 <span th:text="${entry.value[0] - entry.value[1]}"></span> 円
+            </p>
+        </div>
+    </div>
+
+    <!-- 一覧テーブル -->
     <div class="table-container">
         <table>
             <thead>
@@ -104,15 +124,16 @@
                 <th>月</th>
                 <th>収入</th>
                 <th>支出</th>
+                <th>残額</th>
                 <th>削除</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="item : ${dataList}">
-                <!-- ★ 修正：monthName → month -->
                 <td th:text="${item.monthValue} + '月'"></td>
                 <td th:text="${item.income} + ' 円'"></td>
                 <td th:text="${item.expense} + ' 円'"></td>
+                <td th:text="${item.income - item.expense} + ' 円'"></td>
                 <td>
                     <form th:action="@{/delete/{id}(id=${item.id})}" method="post">
                         <button type="submit" style="background:#d9534f;">削除</button>
